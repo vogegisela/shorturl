@@ -1,0 +1,41 @@
+import requests
+
+def shorten_url(url):
+    api_url = "https://api-ssl.bitly.com/v4/shorten"
+    access_token = "YOUR_ACCESS_TOKEN"  # 请替换为您的Bitly访问令牌
+    
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "long_url": url
+    }
+    
+    response = requests.post(api_url, headers=headers, json=payload)
+    
+    if response.status_code == 200:
+        data = response.json()
+        short_url = data["id"]
+        print("短URL：", short_url)
+    else:
+        print("无法生成短URL。")
+
+print("URL缩短器命令行工具")
+
+while True:
+    print("\n请选择操作：")
+    print("1. 生成短URL")
+    print("2. 退出程序")
+
+    choice = input("请选择操作（输入数字）：")
+
+    if choice == '2':
+        print("谢谢使用，再见！")
+        break
+
+    if choice == '1':
+        url = input("请输入长URL：")
+        shorten_url(url)
+    else:
+        print("无效的选择，请重新输入。")
